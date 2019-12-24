@@ -16,6 +16,9 @@
     <PackageReference Include="PostSharp.Patterns.Diagnostics.Serilog" Version="6.3.14" />
     <PackageReference Include="Serilog.Sinks.ElasticSearch" Version="8.0.1" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.csproj" />
+  </ItemGroup>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
   <Import Project="..\..\..\PostSharp.Samples.targets" />
 </Project>

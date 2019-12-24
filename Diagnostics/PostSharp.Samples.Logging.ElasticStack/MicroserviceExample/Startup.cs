@@ -22,10 +22,10 @@ namespace MicroserviceExample
       services.AddMvc(delegate (MvcOptions options)
       {
         options.Filters.Add(typeof(LoggingActionFilter));
-        if (SampledLoggingActionFilter.IsInitialized)
-        {
-          options.Filters.Add(typeof(SampledLoggingActionFilter));
-        }
+        //if (SampledLoggingActionFilter.IsInitialized)
+        //{
+        //  options.Filters.Add(typeof(SampledLoggingActionFilter));
+        //}
       }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
       services.AddHttpContextAccessor();
