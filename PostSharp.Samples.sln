@@ -102,6 +102,8 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose-elasticsearc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Diagnostics\PostSharp.Samples.Logging.ElasticStack\Shared\Shared.csproj", "{607AE707-33DD-4034-8264-6E2107D537FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientMvc", "Diagnostics\PostSharp.Samples.Logging.ElasticStack\ClientMvc\ClientMvc.csproj", "{C3663F7D-0576-423D-BAE4-A2C2ADC585AA}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Diagnostics\PostSharp.Samples.Logging.BusinessLogic\PostSharp.Samples.Logging.BusinessLogic.projitems*{49e1beb2-613f-4326-a3aa-2984ab1a0931}*SharedItemsImports = 4
@@ -338,6 +340,12 @@ Global
 		{607AE707-33DD-4034-8264-6E2107D537FA}.Development|Any CPU.Build.0 = Debug|Any CPU
 		{607AE707-33DD-4034-8264-6E2107D537FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{607AE707-33DD-4034-8264-6E2107D537FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3663F7D-0576-423D-BAE4-A2C2ADC585AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3663F7D-0576-423D-BAE4-A2C2ADC585AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3663F7D-0576-423D-BAE4-A2C2ADC585AA}.Development|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3663F7D-0576-423D-BAE4-A2C2ADC585AA}.Development|Any CPU.Build.0 = Debug|Any CPU
+		{C3663F7D-0576-423D-BAE4-A2C2ADC585AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3663F7D-0576-423D-BAE4-A2C2ADC585AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -380,6 +388,7 @@ Global
 		{D13928C0-62FE-4B93-86BC-E45B147C7C08} = {6B66C0C7-17E9-4888-826E-0168EBDFC2A7}
 		{B4216E1F-7FBC-4D5F-AE1A-38E67EC88852} = {6B66C0C7-17E9-4888-826E-0168EBDFC2A7}
 		{607AE707-33DD-4034-8264-6E2107D537FA} = {6B66C0C7-17E9-4888-826E-0168EBDFC2A7}
+		{C3663F7D-0576-423D-BAE4-A2C2ADC585AA} = {6B66C0C7-17E9-4888-826E-0168EBDFC2A7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E95A232-DBEE-4E84-9574-757745FEE89B}

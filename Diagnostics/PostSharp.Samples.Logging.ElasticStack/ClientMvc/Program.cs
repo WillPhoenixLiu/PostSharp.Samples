@@ -1,5 +1,4 @@
-﻿using MicroserviceExample.Formatters;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using PostSharp.Patterns.Diagnostics;
@@ -10,32 +9,27 @@ using Serilog.Sinks.Elasticsearch;
 using System;
 using Microsoft.Extensions.DependencyInjection;
 
-[assembly: Log]
-
-namespace MicroserviceExample
+namespace ClientMvc
 {
-  public class Program
-  {
-
-
-    public static void Main(string[] args)
+    public class Program
     {
-
+        public static void Main(string[] args)
+        {
       using (var logger = new LoggerConfiguration()
-          .Enrich.WithProperty("Application", "PostSharp.Samples.Logging.ElasticStack.MicroserviceExample")
-          .MinimumLevel.Debug()
-          .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200"))
-          {
-            BatchPostingLimit = 1, // For demo.
+                .Enrich.WithProperty("Application", "PostSharp.Samples.Logging.ElasticStack.MicroserviceExample")
+                .MinimumLevel.Debug()
+                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200"))
+                {
+                  BatchPostingLimit = 1, // For demo.
             AutoRegisterTemplate = true,
-            AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
-            EmitEventFailure = EmitEventFailureHandling.ThrowException | EmitEventFailureHandling.WriteToSelfLog,
-            FailureCallback = e => Console.WriteLine("Unable to submit event " + e.MessageTemplate),
-          })
-          .WriteTo.Console(
-              outputTemplate:
-              "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Indent:l}{Message:l}{NewLine}{Exception}")
-          .CreateLogger())
+                  AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
+                  EmitEventFailure = EmitEventFailureHandling.ThrowException | EmitEventFailureHandling.WriteToSelfLog,
+                  FailureCallback = e => Console.WriteLine("Unable to submit event " + e.MessageTemplate),
+                })
+                .WriteTo.Console(
+                    outputTemplate:
+                    "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Indent:l}{Message:l}{NewLine}{Exception}")
+                .CreateLogger())
       {
 
 
@@ -47,9 +41,9 @@ namespace MicroserviceExample
         backend.Options.ContextIdGenerationStrategy = ContextIdGenerationStrategy.Hierarchical;
         LoggingServices.DefaultBackend = backend;
 
-        LoggingServices.Formatters.Register(typeof(ActionResult<>), typeof(ActionResultFormatter<>));
-        LoggingServices.Formatters.Register(new ActionResultFormatter());
-        LoggingServices.Formatters.Register(new ObjectResultFormatter());
+        //LoggingServices.Formatters.Register(typeof(ActionResult<>), typeof(ActionResultFormatter<>));
+        //LoggingServices.Formatters.Register(new ActionResultFormatter());
+        //LoggingServices.Formatters.Register(new ObjectResultFormatter());
 
         // Log only warnings by default, except for 10% randomly chosen requests.
         //SampledLoggingActionFilter.Initialize(backend);
@@ -64,8 +58,8 @@ namespace MicroserviceExample
       }
     }
 
-    public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-        WebHost.CreateDefaultBuilder(args)
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
             .UseSerilog()
             .UseStartup<Startup>()
             .ConfigureServices(services =>
@@ -77,5 +71,4 @@ namespace MicroserviceExample
               services.AddOpenTracing();
             });
   }
-
 }

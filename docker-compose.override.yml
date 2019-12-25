@@ -1,8 +1,10 @@
 version: '3.4'
 
 services:
-  microserviceexample:
+  elasticsearch:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ports:
-      - "5006:80"
+      - "9200:9200"
