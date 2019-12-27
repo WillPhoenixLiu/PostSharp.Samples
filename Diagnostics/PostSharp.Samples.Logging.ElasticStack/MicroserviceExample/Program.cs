@@ -1,4 +1,4 @@
-﻿using MicroserviceExample.Formatters;
+﻿//using MicroserviceExample.Formatters;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -47,9 +47,9 @@ namespace MicroserviceExample
         backend.Options.ContextIdGenerationStrategy = ContextIdGenerationStrategy.Hierarchical;
         LoggingServices.DefaultBackend = backend;
 
-        LoggingServices.Formatters.Register(typeof(ActionResult<>), typeof(ActionResultFormatter<>));
-        LoggingServices.Formatters.Register(new ActionResultFormatter());
-        LoggingServices.Formatters.Register(new ObjectResultFormatter());
+        //LoggingServices.Formatters.Register(typeof(ActionResult<>), typeof(ActionResultFormatter<>));
+        //LoggingServices.Formatters.Register(new ActionResultFormatter());
+        //LoggingServices.Formatters.Register(new ObjectResultFormatter());
 
         // Log only warnings by default, except for 10% randomly chosen requests.
         //SampledLoggingActionFilter.Initialize(backend);

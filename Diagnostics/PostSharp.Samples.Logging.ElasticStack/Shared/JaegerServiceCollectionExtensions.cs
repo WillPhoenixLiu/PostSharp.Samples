@@ -12,53 +12,57 @@ using OpenTracing.Util;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class JaegerServiceCollectionExtensions
+  public static class JaegerServiceCollectionExtensions
+  {
+    private static Uri _jaegerUri = new Uri("http://47.96.102.100:14268/api/traces");
+
+    public static IServiceCollection AddJaeger(this IServiceCollection services, string JaegerHost = "")
     {
-        private static readonly Uri _jaegerUri = new Uri("http://47.96.102.100:14268/api/traces");
+      if (!string.IsNullOrWhiteSpace(JaegerHost))
+      {
+        _jaegerUri = new Uri($"{JaegerHost}/api/traces");
+      }
+      if (services == null)
+        throw new ArgumentNullException(nameof(services));
 
-        public static IServiceCollection AddJaeger(this IServiceCollection services)
-        {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
+      services.AddSingleton<ITracer>(serviceProvider =>
+      {
+        string serviceName = Assembly.GetEntryAssembly().GetName().Name;
 
-            services.AddSingleton<ITracer>(serviceProvider =>
-            {
-                string serviceName = Assembly.GetEntryAssembly().GetName().Name;
+        var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
 
-                ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
-
-                ISampler sampler = new ConstSampler(sample: true);
-
-
-                //This will log to a default localhost installation of Jaeger.
-
-                var sender = new HttpSender(_jaegerUri.AbsoluteUri);
-
-                var reporter = new RemoteReporter.Builder()
-                        .WithLoggerFactory(loggerFactory) // optional, defaults to no logging
-                                                          //.WithMaxQueueSize(...)            // optional, defaults to 100
-                                                          //.WithFlushInterval(...)           // optional, defaults to TimeSpan.FromSeconds(1)
-                        .WithSender(sender)                  // optional, defaults to UdpSender("localhost", 6831, 0)
-                        .Build();
+        ISampler sampler = new ConstSampler(sample: true);
 
 
-                ITracer tracer = new Tracer.Builder(serviceName)
-                    .WithSampler(sampler)
-                    .WithReporter(reporter)
-                    .Build();
+              //This will log to a default localhost installation of Jaeger.
 
-                GlobalTracer.Register(tracer);
+              var sender = new HttpSender(_jaegerUri.AbsoluteUri);
 
-                return tracer;
-            });
+        var reporter = new RemoteReporter.Builder()
+                      .WithLoggerFactory(loggerFactory) // optional, defaults to no logging
+                                                        //.WithMaxQueueSize(...)            // optional, defaults to 100
+                                                        //.WithFlushInterval(...)           // optional, defaults to TimeSpan.FromSeconds(1)
+                      .WithSender(sender)                  // optional, defaults to UdpSender("localhost", 6831, 0)
+                      .Build();
 
-            // Prevent endless loops when OpenTracing is tracking HTTP requests to Jaeger.
-            services.Configure<HttpHandlerDiagnosticOptions>(options =>
-            {
-                options.IgnorePatterns.Add(request => _jaegerUri.IsBaseOf(request.RequestUri));
-            });
 
-            return services;
-        }
+        ITracer tracer = new Tracer.Builder(serviceName)
+                  .WithSampler(sampler)
+                  .WithReporter(reporter)
+                  .Build();
+
+        GlobalTracer.Register(tracer);
+
+        return tracer;
+      });
+
+      // Prevent endless loops when OpenTracing is tracking HTTP requests to Jaeger.
+      services.Configure<HttpHandlerDiagnosticOptions>(options =>
+      {
+        options.IgnorePatterns.Add(request => _jaegerUri.IsBaseOf(request.RequestUri));
+      });
+
+      return services;
     }
+  }
 }

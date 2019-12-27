@@ -1,5 +1,4 @@
-﻿using Aop;
-using PostSharp.Patterns.Diagnostics;
+﻿using PostSharp.Patterns.Diagnostics;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -7,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace ClientExample
 {
-  [OpenTracingLoggingAspect]
   public class QueueProcessor
   {
     private static readonly LogSource logger = LogSource.Get();
